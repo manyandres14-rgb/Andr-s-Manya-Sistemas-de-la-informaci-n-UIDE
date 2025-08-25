@@ -1,0 +1,104 @@
+Este fragmento de código en Python utiliza el módulo turtle para implementar una versión básica del clásico juego de la serpiente (Snake)
+1. Configuración inicial y pantalla de juego
+
+Se crea una ventana usando Screen() con fondo negro, tamaño de 600×600 píxeles y título personalizado.
+
+2. Control del movimiento
+
+Se definen funciones para cambiar la dirección del movimiento de la serpiente: Arriba(), Abajo(), Izquierda() y Derecha() 
+Cada función cambia la orientación mediante setheading() solo si no se opone al movimiento actual (evitando giros de 180° directos)
+
+3. Comida (food) de la serpiente
+
+Se crea un objeto Turtle para la comida, de forma circular y color rojo, con posición inicial aleatoria dentro del área de juego:
+
+4. Bucle principal del juego
+
+Se ejecuta un bucle while True: que mantiene el juego en ejecución:
+
+Actualiza la pantalla con screen.update().
+
+Mueve la cabeza hacia adelante 20 píxeles.
+
+
+CÓDIGO:
+
+
+from turtle import Screen, Turtle
+import time
+import random #modulo que implementa aleatorizacion 
+
+segments = [] #lista vacia para los segmentos 
+
+def up():   #asignamos funciones para el movimiento de la serpiente hacia arriba 
+ if New_segment.heading() != 270:
+     New_segment.setheading(90)
+
+
+def down():   #asignamos funciones para el movimiento de la serpiente hacia abajo
+  if New_segment.heading() != 90:
+     New_segment.setheading(270)
+
+def left():   #asignamos funciones para el movimiento de la serpiente hacia la derecha 
+  if New_segment.heading() != 0:
+     New_segment.setheading(180)
+
+def right():   #asignamos funciones para el movimiento de la serpiente hacia la izquierda
+  if New_segment.heading() != 180:
+    New_segment.setheading(0)
+
+#Pantalla se asigna la interfaz grafica y el color de la pantalla 
+screen = Screen()
+screen.bgcolor("black")
+screen.setup(width=600, height=600)   #asignamos el tamaño de la pantalla o interfaz grafica
+screen.title("Snake Game Andres Manya UIDE")
+
+
+#Serpiente 
+New_segment = Turtle("square") #asignamos una variable el cual va a ser el inicio de la serpiente y la forma 
+New_segment.color("white") #asignamos el color de la serpiente 
+New_segment.penup()  #se asigna esta funcion para que no trace la direccion en la que se mueve la serpiente 
+New_segment.goto(0, 0) #se define el rango de movimiento de la serpiente 
+segments.append(New_segment)
+screen.onkey( up,"Up") #definimos la funcion para poder tener el control del movimiento hacia arriba de la serpiente 
+screen.onkey( down,"Down")
+screen.onkey( left,"Left")
+screen.onkey( right,"Right")
+screen.listen()
+
+
+
+#for i in range(10): #asiganmos el bucle for para el movimiento de la serpiente 
+#     New_segment.forward(20) #se mueve 20mpx hacia la derecha por default 
+#     time.sleep(0.9) #se define el tiempo de latencia de movimiento 
+
+#Alimento serpiente 
+food = Turtle ("circle") #En esta linea de codigo definimos la forma de la comida para la serpiente 
+food.color("red")
+food.penup()
+random_x = random.randint(-280, 280)
+random_y = random.randint(-280, 280)
+food.goto(random_x, random_y)
+while True:
+  screen.update() #actualizamos la pantalla para evitar un giro innecesario en la animacion
+  New_segment.forward(20) #definimos el recorrido de la serpiente a 20mpx
+  time.sleep(0.2) #definimos el tiempo de recorrido de la serpiente 
+    #Detectar cuando toca la comida 
+  if New_segment.distance(food) < 15:
+        random_x = random.randint(-280, 280) #variable que hace referencia en x 
+        random_y = random.randint(-280, 280) #variable que hace referencia en y
+        food.goto(random_x, random_y)
+
+        next_segment = Turtle("square")
+        next_segment.color("white")
+        next_segment.penup()
+        segments.append(next_segment)
+
+  if len(segments)> 1:
+   for i in range(len(segments)-1, 0, -1):
+    segments[i].goto(segments[i-1].xcor(), segments[i-1].ycor())
+
+    
+
+
+screen.exitonclick() #Configura para que con un click salga de la pantalla de juego 
